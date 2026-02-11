@@ -1,0 +1,561 @@
+!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outfit Guide - Panduan Gaya Anda</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .selection-panel {
+            margin-bottom: 40px;
+        }
+
+        .gender-selection {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .gender-btn {
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border: 3px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .gender-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .gender-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .occasion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .occasion-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+            text-align: center;
+        }
+
+        .occasion-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-color: #667eea;
+        }
+
+        .occasion-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .occasion-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .occasion-desc {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .result-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .outfit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .outfit-item {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #667eea;
+        }
+
+        .outfit-category {
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .outfit-options {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .outfit-options li {
+            padding: 8px 0;
+            color: #333;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .outfit-options li:last-child {
+            border-bottom: none;
+        }
+
+        .tips-section {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+
+        .tips-title {
+            font-size: 1.4em;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .tips-list li {
+            padding: 10px 0;
+            color: #444;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .tips-list li:before {
+            content: "✨";
+            position: absolute;
+            left: 0;
+        }
+
+        .back-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .color-chip {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main-content {
+                padding: 25px;
+            }
+
+            .gender-selection {
+                flex-direction: column;
+            }
+
+            .occasion-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>👔 Outfit Guide</h1>
+            <p class="subtitle">Temukan outfit sempurna untuk setiap kesempatan</p>
+        </header>
+
+        <div class="main-content">
+            <div id="selectionPanel" class="selection-panel">
+                <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Pilih Gender</h2>
+                <div class="gender-selection">
+                    <button class="gender-btn active" onclick="selectGender('pria')">Pria</button>
+                    <button class="gender-btn" onclick="selectGender('wanita')">Wanita</button>
+                </div>
+
+                <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Pilih Jenis Acara</h2>
+                <div class="occasion-grid" id="occasionGrid"></div>
+            </div>
+
+            <div id="resultSection" class="result-section"></div>
+        </div>
+    </div>
+
+    <script>
+        let selectedGender = 'pria';
+
+        const occasions = {
+            pria: {
+                formal: {
+                    icon: '🤵',
+                    title: 'Acara Formal',
+                    desc: 'Meeting bisnis, pernikahan formal, gala dinner',
+                    outfits: {
+                        'Atasan': ['Kemeja putih/biru formal', 'Kemeja dengan French cuff', 'Turtleneck premium (alternatif modern)'],
+                        'Bawahan': ['Celana dress pants hitam/navy/abu', 'Celana bahan wool blend', 'Chino premium'],
+                        'Outer': ['Blazer/suit jacket', 'Jas 2-piece atau 3-piece', 'Coat formal'],
+                        'Sepatu': ['Oxford shoes', 'Derby shoes', 'Loafers kulit'],
+                        'Aksesoris': ['Dasi silk', 'Pocket square', 'Jam tangan klasik', 'Cufflinks', 'Ikat pinggang kulit']
+                    },
+                    colors: ['#000000', '#1a1a2e', '#16213e', '#2c3e50', '#34495e'],
+                    tips: [
+                        'Pastikan kemeja dan celana sudah di-iron dengan rapi',
+                        'Pilih warna netral: hitam, navy, abu-abu, atau cokelat tua',
+                        'Sepatu harus dipoles dan dalam kondisi baik',
+                        'Dasi panjangnya harus sampai bagian atas ikat pinggang',
+                        'Pastikan ukuran pas - tidak terlalu ketat atau longgar',
+                        'Gunakan cologne dengan aroma maskulin yang tidak terlalu kuat'
+                    ]
+                },
+                casual: {
+                    icon: '👕',
+                    title: 'Acara Casual',
+                    desc: 'Hangout, kencan santai, acara keluarga',
+                    outfits: {
+                        'Atasan': ['T-shirt polos/grafis', 'Polo shirt', 'Kemeja lengan pendek/panjang kasual', 'Henley shirt'],
+                        'Bawahan': ['Jeans (slim/regular fit)', 'Chino casual', 'Cargo pants', 'Jogger pants'],
+                        'Outer': ['Bomber jacket', 'Denim jacket', 'Hoodie', 'Cardigan', 'Flannel shirt'],
+                        'Sepatu': ['Sneakers', 'Casual loafers', 'Canvas shoes', 'Slip-on'],
+                        'Aksesoris': ['Topi baseball/bucket hat', 'Jam tangan casual', 'Tas selempang/ransel', 'Kacamata']
+                    },
+                    colors: ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#95a5a6'],
+                    tips: [
+                        'Mix & match warna - jangan takut bereksperimen',
+                        'Layering bisa membuat outfit lebih menarik',
+                        'Pastikan sepatu clean dan matching dengan outfit',
+                        'Aksesoris sederhana bisa mengangkat penampilan',
+                        'Pilih fit yang nyaman tapi tetap stylish',
+                        'Perhatikan proporsi - balance antara atasan dan bawahan'
+                    ]
+                },
+                semiformal: {
+                    icon: '👔',
+                    title: 'Semi-Formal',
+                    desc: 'Dinner date, acara kantor, cocktail party',
+                    outfits: {
+                        'Atasan': ['Kemeja formal warna cerah', 'Kemeja pola subtle', 'Polo shirt premium'],
+                        'Bawahan': ['Chino dressy', 'Celana bahan', 'Dark jeans (premium)'],
+                        'Outer': ['Blazer kasual', 'Sport coat', 'Cardigan premium'],
+                        'Sepatu': ['Loafers', 'Monk strap', 'Chelsea boots', 'Brogues'],
+                        'Aksesoris': ['Ikat pinggang', 'Jam tangan dressy', 'Tie bar (opsional)', 'Pocket square']
+                    },
+                    colors: ['#34495e', '#7f8c8d', '#c0392b', '#16a085', '#8e44ad'],
+                    tips: [
+                        'Kombinasi blazer dengan jeans bisa bekerja jika dilakukan dengan benar',
+                        'Hindari sneakers - pilih sepatu yang lebih dressy',
+                        'Bisa skip dasi untuk tampilan lebih santai',
+                        'Pastikan warna outfit harmonis',
+                        'Fabric quality matters - pilih bahan yang terlihat premium',
+                        'Grooming sangat penting di level semi-formal'
+                    ]
+                },
+                olahraga: {
+                    icon: '⚽',
+                    title: 'Olahraga/Gym',
+                    desc: 'Gym, jogging, aktivitas fisik',
+                    outfits: {
+                        'Atasan': ['Dry-fit t-shirt', 'Tank top', 'Compression shirt', 'Rashguard'],
+                        'Bawahan': ['Celana training', 'Shorts olahraga', 'Jogger sports', 'Compression pants'],
+                        'Sepatu': ['Running shoes', 'Training shoes', 'Basketball shoes (untuk basket)'],
+                        'Aksesoris': ['Gym bag', 'Smartwatch/fitness tracker', 'Headband', 'Wristband', 'Earphones']
+                    },
+                    colors: ['#2c3e50', '#e74c3c', '#3498db', '#f39c12', '#ffffff'],
+                    tips: [
+                        'Pilih bahan yang breathable dan quick-dry',
+                        'Fit harus nyaman untuk bergerak',
+                        'Sepatu sesuai jenis olahraga yang dilakukan',
+                        'Gunakan kaos kaki yang tepat',
+                        'Bawa handuk dan botol minum',
+                        'Pastikan outfit bersih dan tidak berbau'
+                    ]
+                }
+            },
+            wanita: {
+                formal: {
+                    icon: '👗',
+                    title: 'Acara Formal',
+                    desc: 'Pernikahan, gala dinner, acara corporate',
+                    outfits: {
+                        'Dress': ['Long dress/gown', 'Cocktail dress', 'Midi dress elegant', 'A-line dress'],
+                        'Alternatif': ['Blouse + rok panjang', 'Blazer + celana bahan + blouse', 'Jumpsuit formal'],
+                        'Sepatu': ['High heels', 'Stiletto', 'Kitten heels', 'Pumps'],
+                        'Tas': ['Clutch', 'Small evening bag', 'Structured handbag'],
+                        'Aksesoris': ['Statement necklace', 'Earrings', 'Gelang', 'Jam tangan elegant', 'Shawl/pashmina']
+                    },
+                    colors: ['#000000', '#8b0000', '#000080', '#2c3e50', '#800020'],
+                    tips: [
+                        'Pilih satu statement piece - jangan over-accessorize',
+                        'Pastikan panjang dress sesuai dress code acara',
+                        'Makeup harus lebih polished untuk acara formal',
+                        'Heels harus nyaman jika akan berdiri lama',
+                        'Perhatikan fabric - silk, satin, chiffon untuk formal',
+                        'Hair styling yang rapi melengkapi penampilan formal',
+                        'Bawa cardigan/shawl jika ruangan ber-AC'
+                    ]
+                },
+                casual: {
+                    icon: '👚',
+                    title: 'Acara Casual',
+                    desc: 'Hangout, shopping, acara santai',
+                    outfits: {
+                        'Atasan': ['T-shirt/blouse casual', 'Crop top', 'Tank top', 'Sweater', 'Kemeja oversized'],
+                        'Bawahan': ['Jeans (berbagai cut)', 'Rok mini/midi', 'Celana kulot', 'Legging', 'Shorts'],
+                        'Dress': ['Sundress', 'Casual midi dress', 'T-shirt dress', 'Wrap dress'],
+                        'Sepatu': ['Sneakers', 'Flat shoes', 'Sandals', 'Slip-on', 'Ankle boots'],
+                        'Aksesoris': ['Tote bag', 'Crossbody bag', 'Backpack', 'Kacamata', 'Jam tangan casual', 'Topi']
+                    },
+                    colors: ['#ff6b9d', '#c44569', '#ffa502', '#26de81', '#4b7bec'],
+                    tips: [
+                        'Nyaman adalah prioritas untuk casual',
+                        'Jangan takut mix & match pattern',
+                        'Layering dengan cardigan/jacket untuk variasi',
+                        'Sneakers bisa dipadu dengan dress untuk kasual-chic',
+                        'Aksesoris minimal tapi tetap stylish',
+                        'Natural makeup atau no-makeup look works well',
+                        'Rambut bisa digerai atau diikat santai'
+                    ]
+                },
+                semiformal: {
+                    icon: '💼',
+                    title: 'Semi-Formal',
+                    desc: 'Dinner, acara kantor, brunch',
+                    outfits: {
+                        'Dress': ['Midi dress', 'Shift dress', 'Sheath dress', 'Wrap dress elegant'],
+                        'Alternatif': ['Blouse + celana bahan', 'Blazer + rok', 'Jumpsuit', 'Two-piece set'],
+                        'Sepatu': ['Block heels', 'Wedges', 'Pointed flats', 'Slingback'],
+                        'Tas': ['Structured bag', 'Satchel', 'Medium-sized handbag'],
+                        'Aksesoris': ['Delicate necklace', 'Stud earrings', 'Minimalist watch', 'Belt']
+                    },
+                    colors: ['#2c3e50', '#8e44ad', '#16a085', '#c0392b', '#d35400'],
+                    tips: [
+                        'Balance antara professional dan stylish',
+                        'Pastikan tidak terlalu revealing',
+                        'Panjang rok/dress di atas atau tepat lutut',
+                        'Bisa tambahkan blazer untuk tampilan lebih formal',
+                        'Heels tidak harus tinggi - block heels sangat nyaman',
+                        'Makeup polished tapi tidak terlalu dramatic',
+                        'Pilih fabric yang jatuhnya bagus'
+                    ]
+                },
+                olahraga: {
+                    icon: '🏃‍♀️',
+                    title: 'Olahraga/Gym',
+                    desc: 'Gym, yoga, jogging, fitness',
+                    outfits: {
+                        'Atasan': ['Sports bra', 'Crop top sports', 'Tank top', 'Long sleeve workout top', 'Compression top'],
+                        'Bawahan': ['Legging/tights', 'Yoga pants', 'Sports shorts', 'Jogger pants', 'Capri pants'],
+                        'Sepatu': ['Running shoes', 'Training shoes', 'Yoga shoes/grip socks'],
+                        'Aksesoris': ['Gym bag', 'Yoga mat', 'Hair tie/headband', 'Sport watch', 'Wireless earbuds', 'Water bottle']
+                    },
+                    colors: ['#000000', '#e74c3c', '#9b59b6', '#3498db', '#ff6b9d'],
+                    tips: [
+                        'Sports bra yang supportive sesuai aktivitas',
+                        'Pilih fabric moisture-wicking',
+                        'High-waisted legging untuk coverage lebih',
+                        'Pastikan legging tidak see-through saat squat',
+                        'Rambut diikat agar tidak mengganggu',
+                        'Sepatu dengan support yang baik untuk mencegah injury',
+                        'Matching set bisa boost confidence'
+                    ]
+                }
+            }
+        };
+
+        function selectGender(gender) {
+            selectedGender = gender;
+            document.querySelectorAll('.gender-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderOccasions();
+        }
+
+        function renderOccasions() {
+            const grid = document.getElementById('occasionGrid');
+            grid.innerHTML = '';
+            
+            Object.keys(occasions[selectedGender]).forEach(key => {
+                const occasion = occasions[selectedGender][key];
+                const card = document.createElement('div');
+                card.className = 'occasion-card';
+                card.onclick = () => showOutfit(key);
+                card.innerHTML = `
+                    <div class="occasion-icon">${occasion.icon}</div>
+                    <div class="occasion-title">${occasion.title}</div>
+                    <div class="occasion-desc">${occasion.desc}</div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function showOutfit(occasionKey) {
+            const occasion = occasions[selectedGender][occasionKey];
+            const resultSection = document.getElementById('resultSection');
+            
+            let outfitHTML = '';
+            Object.keys(occasion.outfits).forEach(category => {
+                outfitHTML += `
+                    <div class="outfit-item">
+                        <div class="outfit-category">${category}</div>
+                        <ul class="outfit-options">
+                            ${occasion.outfits[category].map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            });
+
+            let colorChips = '';
+            occasion.colors.forEach(color => {
+                colorChips += `<div class="color-chip" style="background-color: ${color}"></div>`;
+            });
+
+            resultSection.innerHTML = `
+                <div class="result-header">
+                    <div style="font-size: 3em; margin-bottom: 10px;">${occasion.icon}</div>
+                    <div class="result-title">${occasion.title}</div>
+                    <p style="color: #666;">${occasion.desc}</p>
+                </div>
+
+                <h3 style="margin-bottom: 20px; color: #333;">Rekomendasi Outfit</h3>
+                <div class="outfit-grid">
+                    ${outfitHTML}
+                </div>
+
+                <div style="background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px;">
+                    <h4 style="color: #333; margin-bottom: 15px;">Palet Warna yang Cocok</h4>
+                    <div class="color-palette">
+                        ${colorChips}
+                    </div>
+                </div>
+
+                <div class="tips-section">
+                    <div class="tips-title">💡 Tips & Saran</div>
+                    <ul class="tips-list">
+                        ${occasion.tips.map(tip => `<li>${tip}</li>`).join('')}
+                    </ul>
+                </div>
+
+                <button class="back-btn" onclick="goBack()">← Pilih Acara Lain</button>
+            `;
+
+            document.getElementById('selectionPanel').style.display = 'none';
+            resultSection.style.display = 'block';
+        }
+
+        function goBack() {
+            document.getElementById('selectionPanel').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        // Initialize
+        renderOccasions();
+    </script>
+</body>
+</html>
